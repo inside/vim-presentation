@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>The VIM presentation</title>
+        <meta name="description" content="Learn or revise basic and advanced techniques to improve your development productivity">
+        <meta name="author" content="YTG">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <!--<link rel="stylesheet" href="css/theme/default.css" id="theme">-->
+        <link rel="stylesheet" href="css/theme/moon.css" id="theme">
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+
+                <section>
+                    <h1>The VIM presentation</h1>
+                    <pre><code data-trim>
+:h intro
+:help
+:helpgrep
+                    </code></pre>
+                    <a href="http://inside.github.io/vim-presentation/">http://inside.github.io/vim-presentation/</a>
+                </section>
+
+                <section>
+                    <h2>Part 1</h2>
+                    <ul>
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#minimal-configuration">Minimal configuration</a></li>
+                        <li><a href="#colorschemes-and-eye-candy">Colorschemes and eye candy</a></li>
+                        <li><a href="#buffers-windows-tabs">Buffers, windows and tabs</a></li>
+                        <li><a href="#modes">Modes (Introduces normal mode motions)</a></li>
+                        <li><a href="#text-objects">Text objects</a></li>
+                        <li><a href="#operators">Operators</a></li>
+                        <li><a href="#idioms">Idioms</a></li>
+                        <li><a href="#navigation">Navigation</a></li>
+                        <li><a href="#summary">Summary</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Part 2</h2>
+                    <ul>
+                        <li><a href="#registers">Registers</a></li>
+                        <li><a href="#macros">Macros</a></li>
+                        <li><a href="#practice-what-you-have-learned">Practice what you have learned</a></li>
+                        <li><a href="#opening-files">Opening files</a></li>
+                        <li><a href="#search">Search</a></li>
+                        <li><a href="#search-and-replace">Search and replace</a></li>
+                        <li><a href="#mappings">Mappings</a></li>
+                        <li><a href="#a-tiny-bit-of-viml-a-k-a-vimscript">A tiny bit of VimL a.k.a Vimscript</a></li>
+                        <li><a href="#plugins">Plugins</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Part 1</h2>
+                </section>
+
+                <section id="overview">
+                    <h2>Overview</h2>
+                </section>
+
+                <section>
+                    <h3>Qwerty, the coder's keyboard layout</h3>
+                    <ul>
+                        <li>One keystroke to frequently used characters . / [] ; ' \</li>
+                        <li>Two keystrokes characters with easy access () {} &lt; &gt; :</li>
+                        <li>One keystroke to type numbers</li>
+                        <li>, . / ? are frequently used keys in vim</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Azerty is good for writing french</h3>
+                    <p>
+                        <a href="http://www.kbdedit.com/manual/ex18_latin_all_accents_chained_dead.html">Use dead keys to type accented characters</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Touch typing</h3>
+                    <ul>
+                        <li>Use <a href="http://klavaro.sourceforge.net/en/">klavaro</a> to learn touch typing</li>
+                        <li>The goal is to stay as close as possible to home row (asdf jkl;)</li>
+                        <li>
+                            <p>Vim uses hjkl for cursor movement</p>
+                            <p style="text-align: center;"><img src="images/adm-3a-hjkl-keyboard.jpg"></p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>A brief history of vim</h3>
+                     <ul>
+                         <li>Written by <a href="http://www.moolenaar.net/">Bram Moolenaar</a></li>
+                         <li><b>1991, v1.14</b> - First public release for the Amiga</li>
+                         <li><b>1994, v3.0</b> - Support for multiple windows</li>
+                         <li><b>1996, v4.0</b> - Graphical user interface</li>
+                         <li><b>1998, v5.2</b> - Long line support, file browser, dialogs, popup menu, select mode, session files, user defined functions and commands, Tcl interface</li>
+                         <li><b>2001, v6.0</b> - Folding, plugins, multi-language</li>
+                         <li><b>2006, v7.0</b> - Spell checking, code completion, tabs, current line and column highlighting, undo branches, and more</li>
+                         <li><b>2013, v7.4</b> - A new, faster regular expression engine</li>
+                     </ul>
+                </section>
+
+                <section>
+                    <h3>Why vim?</h3>
+                    <p>
+                        The best text editor is the one you know best. But...
+                    </p>
+                    <ul>
+                        <li>Vim is preinstalled on almost every OS</li>
+                        <li>Vim can be run from a terminal or with the graphical interface (gvim)</li>
+                        <li>Access to your ~/.vimrc file from github and you're ready to code</li>
+                        <li>If vim is not installed you can compile it from the sources</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Vim compilation</h3>
+                    <pre><code data-trim>
+~% mkdir src && cd src
+~% hg clone https://vim.googlecode.com/hg/ vim
+~% cd vim
+~% hg pull && hg update
+                    </code></pre>
+
+                    <p>
+                        Uncommented options in ~/src/vim/src/Makefile
+                    </p>
+
+                    <pre><code data-trim>
+CONF_OPT_GUI = --disable-gui
+CONF_OPT_LUA = --enable-luainterp
+CONF_OPT_PYTHON = --enable-pythoninterp
+CONF_OPT_RUBY = --enable-rubyinterp
+CONF_OPT_FEAT = --with-features=big
+CONF_OPT_COMPBY = "--with-compiledby=ytg"
+CONF_OPT_X = --without-x
+# Home installation?
+prefix = $(HOME)
+                    </code></pre>
+
+<p>
+    Then type:
+</p>
+
+                    <pre><code data-trim>
+~% make
+~% sudo make install
+                    </code></pre>
+
+                    <p>
+                        If you change anything in the src/Makefile be sure to type:
+                    </p>
+
+                    <pre><code data-trim>
+~% make reconfig
+                    </code></pre>
+                </section>
+
+                <section id="minimal-configuration">
+                    <h2>Minimal configuration</h2>
+                </section>
+
+                <section>
+                    <h3>No configuration</h3>
+                    <pre><code data-trim>
+% vim -u NONE -N
+                    </code></pre>
+                    <blockquote cite="http://unixhelp.ed.ac.uk/CGI/man-cgi?vim">
+                        -u {vimrc}  Use the commands in the file {vimrc}...
+                        ...It can also be used to  skip all initializations by giving the name "NONE".
+                    </blockquote>
+                    <blockquote cite="http://unixhelp.ed.ac.uk/CGI/man-cgi?vim">
+                        -N   No-compatible  mode.
+                    </blockquote>
+                </section>
+
+                <section>
+                    <h3>What are options?</h3>
+                    <ul>
+                        <li>:h options</li>
+                        <li><strong>boolean</strong> can only be on or off</li>
+                        <li><strong>number</strong> has a numeric value</li>
+                        <li><strong>string</strong> has a string value</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Setting options</h3>
+                    <ul>
+                        <li><strong>:set {option}?</strong> show option value</li>
+                        <li><strong>:set {option}&</strong> Reset option to its default value</li>
+                        <li>
+                            Boolean option
+                            <ul>
+                                <li><strong>:set {option}</strong> switch it on</li>
+                                <li><strong>:set no{option}</strong> switch it off</li>
+                                <li><strong>:set {option}!</strong> or <strong>:set inv{option}</strong> toggle option</li>
+                            </ul>
+                        </li>
+                        <li>
+                            String or Number option
+                            <ul>
+                                <li><strong>:set {option}={value}</strong> set string or number option to {value}</li>
+                                <li><strong>:set {option}+={value}</strong> add the {value} to a number option, or append the
+                                    {value} to a string option</li>
+                                <li><strong>:set {option}-={value}</strong> same as above but substract or remove</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Load an alternative configuration and plugins directory</h3>
+                    <pre><code data-trim>
+vim -u ~/.another.vimrc
+set runtimepath+=~/.another.vim
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Load a local vimrc file</h3>
+                    <p>
+                        Use a .vimrc.local file for specific configuration you need and/or don't
+                        want to disclose on github
+                    </p>
+                    <pre><code data-trim>
+if filereadable($HOME . '/.vimrc.local')
+    source $HOME/.vimrc.local
+endif
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Tabs, spaces, indentation: dead simple ;-)</h3>
+                    <h4>A ~/.vimrc sample:</h4>
+                    <pre><code data-trim>
+set nocompatible
+" Should always have the same value for simplicity's sake "
+set shiftwidth=4 tabstop=4 softtabstop=4
+set expandtab
+filetype plugin on
+syntax on
+
+" When sourcing multiple times your vimrc file "
+" clear the autocommands first instead of adding them "
+autocmd!
+autocmd FileType make setlocal noexpandtab
+                    </code></pre>
+                    <p>
+                        <a href="http://vimcasts.org/episodes/tabs-and-spaces/">See a full explanation about tabs and spaces</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Advanced configuration, it's take a life time</h3>
+                    <ul>
+                        <li>Keep track of your ~/.vimrc file on github</li>
+                        <li>Use the option's full name in favor of the shorthand version</li>
+                        <li>Edit and source in a flash</li>
+                    </ul>
+                    <pre><code data-trim>
+nnoremap &lt;leader&gt;E :edit $MYVIMRC&lt;cr&gt;
+nnoremap &lt;leader&gt;S :source $MYVIMRC&lt;cr&gt;
+                    </code></pre>
+                </section>
+
+                <section id="colorschemes-and-eye-candy">
+                    <h2>Colorschemes and eye candy</h2>
+                </section>
+
+                <section>
+                    <h3>Terminal configuration</h3>
+                    <pre><code data-trim>
+# ~/.zshrc or ~/.bashrc
+export TERM=xterm-256color
+                    </code></pre>
+
+                    <pre><code data-trim>
+# ~/.screenrc
+term screen-256color
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Colorschemes repository and viewer</h3>
+                    <ul>
+                        <li>
+                            A colorscheme repository:<br>
+                            <a href="https://github.com/flazz/vim-colorschemes">https://github.com/flazz/vim-colorschemes</a>
+                        </li>
+                        <li>
+                            A colorscheme viewer:<br>
+                            <a href="http://bytefluent.com/vivify/">http://bytefluent.com/vivify/</a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Eye candy settings</h3>
+
+                    <pre><code data-trim>
+# ~/.zshrc or ~/.bashrc
+# Disable cursor blinking
+# http://vim.wikia.com/wiki/Configuring_the_cursor
+echo -ne "\033]12;#ffffff\007"
+                    </code></pre>
+
+                    <pre><code data-trim>
+" ~/.vimrc "
+set cursorline " Highlight the cursor screen line "
+set colorcolumn=80 " Draws a vertical line at column 80 "
+
+" String to put at the start of lines that have been wrapped "
+let &showbreak='↪ '
+
+" Minimal number of screen lines to keep above and below the cursor "
+set scrolloff=3
+
+" If 't_vb' is cleared and 'visualbell' is set, "
+" no beep and no flash will ever occur "
+set visualbell
+set t_vb=
+set guicursor+=a:blinkon0 " Disable gui cursor blinking "
+                    </code></pre>
+
+                </section>
+
+                <section id="buffers-windows-tabs">
+                    <h2>Buffers, windows and tabs</h2>
+                    <pre><code data-trim>
+:help windows-intro
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Buffers</h3>
+                    <ul>
+                        <li>A buffer is a file loaded into memory for editing</li>
+                        <li>All opened files are associated with a buffer</li>
+                        <li>There are also buffers not associated with any file</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Buffers commands</h3>
+                    <ul>
+                        <li><strong>:ls</strong> shows all buffers</li>
+                        <li><strong>%</strong> is the current file</li>
+                        <li>
+                            <strong>#</strong> is the alternate file. Use
+                            the <strong>CTRL-^</strong> to toggle between the current and alternate file
+                        </li>
+                        <li><strong>:buffer :b</strong> given a full or partial name (use tab to complete) or number, edit buffer</li>
+                        <li><strong>:bdelete :bd</strong> like the above but deletes one or more buffers</li>
+                        <li><strong>:bnext :bn</strong> go to next buffer</li>
+                        <li><strong>:bprevious :bp</strong> go to previous buffer</li>
+                        <li><strong>:bufdo</strong> to run a ex command on all buffers (:bufdo %s/foo/bar/g). Set the 'hidden' option so buffers do not need to be saved</li>
+                        <li><strong>:wall :wa</strong> Write all buffers</li>
+                        <li><strong>:saveas</strong> Write to file and edit it</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h3>Buffer mappings</h3>
+                    <p>
+                        Mapping suggestion, courtesy of the <a href="https://github.com/tpope/vim-unimpaired">https://github.com/tpope/vim-unimpaired</a> plugin.
+                    </p>
+
+                    <pre><code data-trim>
+nnoremap [b :bprevious&lt;cr&gt;
+nnoremap ]b :bnext&lt;cr&gt;
+                    </code></pre>
+
+                    <p>Prefer not to map the Tab key as CTRL-I and tab is the same in vim. CTRL-I goes forward in the jump list.</p>
+                </section>
+
+                <section>
+                    <h3>Windows</h3>
+                    <ul>
+                        <li>A window is a viewport onto a buffer</li>
+                        <li>You can use multiple windows on one buffer, or several windows on different buffers</li>
+                        <li>Use the mouse to scroll, give focus and resize a window (:set mouse=a)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Windows</h3>
+                    <img src="images/windows.png">
+                </section>
+
+                <section>
+                    <h3>Windows commands</h3>
+                    <ul>
+                        <li>Window commands start with <strong>CTRL-W</strong></li>
+                        <li>
+                            <strong>CTRL-W CTRL-S</strong> <strong>:split :sp</strong> Horizontally split current window in two.
+                            The ex command can take a file argument.
+                        </li>
+                        <li>
+                            <strong>CTRL-W CTRL-V</strong> <strong>:vsplit :vs</strong> Vertically split current window in two
+                        </li>
+                        <li><strong>CTRL-W CTRL-Q</strong> <strong>:q</strong> to close a window</li>
+                        <li><strong>CTRL-W CTRL-O</strong> <strong>:on</strong> to close all other window but the current window</li>
+                        <li><strong>CTRL-W CTRL-=</strong> to redimension all windows</li>
+                        <li><strong>CTRL-W CTRL-W</strong> to move the cursor clockwise from window to window</li>
+                        <li><strong>CTRL-W CTRL-(H|J|K|L)</strong> to move the cursor to the left, top, bottom or right window</li>
+                        <li><strong>:windo</strong> to run a ex command on all windows</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Tabs</h3>
+                    <ul>
+                        <li><strong>:h tabpage</strong></li>
+                        <li>A tab page holds one or more windows</li>
+                        <li>You can easily switch between tab pages, so that you have several collections of windows to work on different things</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Tabs</h3>
+                    <img src="images/tabs1.png">
+                </section>
+
+                <section>
+                    <h3>Tabs</h3>
+                    <img src="images/tabs2.png">
+                </section>
+
+                <section>
+                    <h3>Tabs</h3>
+                    <img src="images/tabs3.png">
+                </section>
+
+                <section>
+                    <h3>Tabs</h3>
+                    <ul>
+                        <li><strong>:tabnew</strong> or <strong>:tabnew</strong> {file}</li>
+                        <li><strong>:tabclose</strong></li>
+                        <li><strong>:tabonly</strong></li>
+                        <li><strong>:tabNext</strong> ({count}gt in normal mode)</li>
+                        <li><strong>:tabprevious</strong> ({count}gT in normal mode)</li>
+                        <li><strong>:tabdo {cmd}</strong> execute {cmd} in each tab page</li>
+                    </ul>
+                </section>
+
+                <section id="modes">
+                    <h2>Modes</h2>
+                    <h3>Introduces normal mode motions</h3>
+                    <pre><code data-trim>
+:h vim-modes
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Normal mode</h3>
+                    <ul>
+                        <li>Default mode when the editor starts</li>
+                        <li>Movements are made from normal mode</li>
+                        <li>Pin point the location of your next change or insertion</li>
+                        <li>Use <strong>:set relativenumber</strong></li>
+                        <li>
+                            Easy up and down on wrapped long lines<br>
+                            <strong>nnoremap j gj</strong><br>
+                            <strong>nnoremap k gk</strong>
+                        </li>
+                        <li><strong>zz</strong> redraws at center of window</li>
+                        <li><strong>z&lt;cr&gt;</strong> redraws at top of window</li>
+                        <li><strong>{operator}/foo</strong> operates from the cursor position until the search</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Vim movements cheat sheet</h3>
+                    <img src="images/vim-move-shortcuts.png">
+                </section>
+
+                <section>
+                    <h3>Insert mode</h3>
+                    <ul>
+                        <li>:h usr_24.txt</li>
+                        <li>Enter insert mode using: <strong>i</strong>, <strong>I</strong>, <strong>a</strong>, <strong>A</strong>, <strong>o</strong>, <strong>O</strong>, <strong>gi</strong> (Go to last insertion and switch to insert mode)</li>
+                        <li><strong>CTRL-W</strong> to delete the word before the cursor</li>
+                        <li><strong>CTRL-U</strong> to delete the line before the cursor</li>
+                        <li>
+                            Use completion <strong>CTRL-N</strong>, <strong>CTRL-P</strong> to complete a word
+                            <ul>
+                                <li><strong>CTRL-N</strong>, <strong>CTRL-P</strong> again to cycle forward, backward</li>
+                                <li><strong>CTRL-Y</strong> to choose the value</li>
+                                <li><strong>CTRL-E</strong> to discard the completion menu</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Leave insert mode</h3>
+                    <ul>
+                        <li><strong>Esc</strong></li>
+                        <li><strong>CTRL-[</strong></li>
+                        <li><strong>CTRL-C</strong></li>
+                    </ul>
+                    <p>Or, remap jk to escape:</p>
+                    <pre><code data-trim>
+inoremap jk &lt;esc&gt;
+inoremap &lt;esc&gt; &lt;nop&gt;
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Paste in insert mode, terminal only</h3>
+                    <pre><code data-trim>
+:set paste
+                    </code></pre>
+                    <p>Then paste using the system's paste command</p>
+                    <pre><code data-trim>
+:set nopaste
+                    </code></pre>
+                    <p>This is an unoptimized workflow.</p>
+                </section>
+
+                <section>
+                    <h3>Paste in insert mode</h3>
+                    <pre><code data-trim>
+" Inspired by https://github.com/tpope/vim-unimpaired "
+" Sets paste on and set nopaste when leaving insert mode "
+" using an autocommand "
+nnoremap &lt;silent&gt; yo  :set paste&lt;cr&gt;o
+nnoremap &lt;silent&gt; yO  :set paste&lt;cr&gt;O
+
+" Disables paste mode when leaving insert mode
+autocmd InsertLeave *
+    \ if &paste == 1 |
+    \     set nopaste |
+    \ endif
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Command mode</h3>
+                    <ul>
+                        <li>In this mode, you type ex commands</li>
+                        <li>Enter command mode by typing ':'</li>
+                        <li>Do it faster by remapping ; to : and : to ;</li>
+                        <li>Use the command history window <strong>q:</strong></li>
+                        <li>Use the search history window <strong>q/</strong></li>
+                        <li><strong>CTRL-R CTRL-W</strong> brings the word under the cursor in the command line</li>
+                        <li><strong>CTRL-R CTRL-0</strong> brings the yanked content in the command line</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Vim modes in your shell</h3>
+                    <h4>For zsh users</h4>
+                    <pre><code data-trim>
+# ~/.zshrc
+bindkey -v
+# maps jk to escape, same as in my .vimrc
+bindkey -M viins 'jk' vi-cmd-mode
+                    </code></pre>
+
+                    <h4>For bash users</h4>
+                    <pre><code data-trim>
+# ~/.bashrc
+set -o vi
+                    </code></pre>
+
+                    <pre><code data-trim>
+# ~/.inputrc
+$if mode=vi
+set keymap vi-insert
+    "jk": vi-movement-mode
+$endif
+                    </code></pre>
+
+                    <h4>For all users</h4>
+                    <p>Use <strong>ctrl-z</strong> and <strong>fg</strong> to switch between the command line and vim</p>
+
+                </section>
+
+                <section>
+                    <h3>Visual modes</h3>
+                </section>
+
+                <section>
+                    <h3>Visual modes</h3>
+                    <ul>
+                        <li><strong>v</strong>, character visual mode</li>
+                        <li><strong>V</strong>, line wise visual mode</li>
+                        <li><strong>CTRL-V</strong>, visual bloc mode (<strong>I</strong> insert at start, <strong>A</strong> insert at end)</li>
+                        <li>Use the mouse to select character wise</li>
+                        <li>Each key combination is a toggle from visual to normal mode and vice versa</li>
+                        <li>Extend the visual selection with <strong>o</strong> and <strong>j / k</strong></li>
+                        <li>Recall the last visual selection with <strong>gv</strong></li>
+                    </ul>
+                </section>
+
+                <section id="text-objects">
+                    <h2>Text objects</h2>
+                    <pre><code data-trim>
+:h text-objects
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Text objects</h3>
+                    <ul>
+                        <li>Used while in visual mode or after an operator (d, y, c...)</li>
+                        <li>The movement command operates from here (cursor position) to where the movement takes us.</li>
+                        <li>When using an object the whole object is operated upon, no matter where on the object the cursor is.</li>
+                        <li>"i" selects an "inner" object</li>
+                        <li>"a" selects "a"n object including whitespace</li>
+                        <li>"a" always selects more text than "i"</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Text objects</h3>
+                    <ul>
+                        <li><strong>iw</strong>, <strong>iW</strong> inner word, WORD</li>
+                        <li><strong>aw</strong>, <strong>aW</strong> a word, WORD with a leading or trailing space</li>
+                        <li><strong>ip</strong> inner paragraph, <strong>ap</strong> a paragraph including trailing space</li>
+                        <li><strong>i]</strong> or <strong>i[</strong> inner brackets</li>
+                        <li><strong>a]</strong> or <strong>a[</strong> inner brackets and brackets included</li>
+                        <li><strong>i)</strong> or <strong>i(</strong></li>
+                        <li><strong>a)</strong> or <strong>a(</strong></li>
+                        <li><strong>i}</strong> or <strong>i{</strong></li>
+                        <li><strong>a}</strong> or <strong>a{</strong></li>
+                        <li><strong>i&gt;</strong> or <strong>i&lt;</strong></li>
+                        <li><strong>a&gt;</strong> or <strong>a&lt;</strong></li>
+                        <li><strong>it</strong> inner tag, <strong>at</strong> a tag</li>
+                        <li><strong>i'</strong>, <strong>i"</strong> quoted text</li>
+                        <li><strong>a'</strong>, <strong>a"</strong> quoted text quotes included</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Text objects examples</h3>
+                    <ul>
+                        <li><strong>diw</strong>, delete inner word</li>
+                        <li><strong>daw</strong>, delete a word</li>
+                        <li><strong>diW</strong>, delete inner WORD</li>
+                        <li><strong>daW</strong>, delete a WORD</li>
+                        <li><strong>yip</strong>, yank inner paragraph</li>
+                        <li><strong>yap</strong>, yank a paragraph</li>
+                        <li><strong>cit</strong>, change inner tag</li>
+                        <li><strong>cat</strong>, change a tag</li>
+                        <li>
+                            <strong>ci(</strong>,
+                            <strong>ca(</strong>,
+                            <strong>vi'</strong>,
+                            <strong>vi"</strong>,
+                            <strong>ci'</strong>,
+                            <strong>ci"</strong>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="operators">
+                    <h2>Operators</h2>
+                    <pre><code data-trim>
+:h operator
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Operators</h3>
+                    <ul>
+                        <li>After a visual selection</li>
+                        <li>Before a motion</li>
+                        <li>Before a text object</li>
+                        <li>
+                            They can be prefixed by a count:
+                            <p>
+                                <strong>3yw</strong> <strong>3cw</strong> <strong>2dap</strong>
+                            </p>
+                            or the equivalent more like a phrase:
+                            <p>
+                                <strong>y3w</strong> <strong>c3w</strong> <strong>d2ap</strong>
+                            </p>
+                        </li>
+                        <li>
+                            When an operator is repeated, it operates on the line
+                            <p>
+                                <strong>dd</strong> <strong>3yy</strong> <strong>5&gt;&gt;</strong>
+                            </p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Operators list</h3>
+                    <table>
+                        <tr><td><strong>c</strong></td><td>change</td></tr>
+                        <tr><td><strong>d</strong></td><td>delete</td></tr>
+                        <tr><td><strong>y</strong></td><td>yank into register (does not change the text)</td></tr>
+                        <tr><td><strong>~</strong></td><td>swap case (only if 'tildeop' is set)</td></tr>
+                        <tr><td><strong>g~</strong></td><td>swap case</td></tr>
+                        <tr><td><strong>gu</strong></td><td>make lowercase</td></tr>
+                        <tr><td><strong>gU</strong></td><td>make uppercase</td></tr>
+                        <tr><td><strong>!</strong></td> <td>filter through an external program</td></tr>
+                        <tr><td><strong>=</strong></td> <td>filter through 'equalprg' or C-indenting if empty</td></tr>
+                        <tr><td><strong>gq</strong></td><td>text formatting</td></tr>
+                        <tr><td><strong>g?</strong></td><td>ROT13 encoding</td></tr>
+                        <tr><td><strong>&gt;</strong></td><td>shift right</td></tr>
+                        <tr><td><strong>&lt;</strong></td><td>shift left</td></tr>
+                    </table>
+                </section>
+
+                <section id="idioms">
+                    <h2>Idioms</h2>
+                    <p>
+                        count + operator + motion or text object == idioms == actions
+                    </p>
+                    <p>
+                        Idioms is more or less a synonym for grammar
+                    </p>
+                </section>
+
+                <section id="navigation">
+                    <h2>Navigation</h2>
+                </section>
+
+                <section>
+                    <h3>Marks</h3>
+                    <p>Marks are similar to bookmarks</p>
+                    <ul>
+                        <li><strong>m{a-z}</strong> set buffer local marks</li>
+                        <li><strong>m{A-Z}</strong> set global marks</li>
+                        <li><strong>'{a-zA-Z}</strong> go to <strong>{a-zA-Z}</strong> mark at first non blank character</li>
+                        <li><strong>`{a-zA-Z}</strong> go to <strong>{a-zA-Z}</strong> mark, preserve cursor column number</li>
+                        <li>Marks can be used as motions, <strong>v'a</strong> (visually select from here to mark "a")</li>
+                        <li><strong>'.</strong> is the last change mark</li>
+                        <li><strong>''</strong>,  <strong>``</strong> to the position before the latest jump</li>
+                        <li><strong>:marks</strong> lists all marks</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Jumps</h3>
+                    <p>Jumps are like breadcrumb navigation</p>
+                    <ul>
+                        <li>Next/prev search, paragraph, matchpair, edit file...</li>
+                        <li>Tiny movements are not jumps, hjkl, 10j, w, b</li>
+                        <li>Each window has its own jumps list</li>
+                        <li><strong>CTRL-O</strong> go to older jump</li>
+                        <li><strong>CTRL-I</strong> go to newer jump</li>
+                        <li><strong>:jumps</strong> lists all jumps</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Changes</h3>
+                    <p>When making a change the cursor position is remembered</p>
+                    <ul>
+                        <li><strong>g;</strong> go to older change</li>
+                        <li><strong>g,</strong> go to newer change</li>
+                        <li><strong>'.</strong> is the last change mark</li>
+                        <li><strong>:changes</strong> lists all changes</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Tag navigation</h3>
+                    <p>Uses ctags to create a tag index, functions, variables, classes, etc...</p>
+                    <ul>
+                        <li><strong>CTRL-]</strong> to jump to the first found tag</li>
+                        <li><strong>:tag {ident}</strong> same as above</li>
+                        <li><strong>g CTRL-]</strong> jump to the tag directly when there is only one match. If many matches, prompts the user for a file number.</li>
+                        <li><strong>:tjump {ident}</strong> same as above</li>
+                        <li><strong>CTRL-T</strong>, <strong>:pop</strong> jump to older tag position</li>
+                        <li><strong>:tag</strong> jump to newer tag position</li>
+                        <li><strong>:tags</strong> shows the tag stack</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Tag navigation configuration</h3>
+                    <pre><code data-trim>
+# In a shellscript somewhere
+find ~/dailymotion -name .git -prune -o -name '*.php' -type f |\
+    ctags --PHP-kinds=cif -f ~/.vim/tags/dailymotion -L - --totals=yes
+                    </code></pre>
+
+                    <pre><code data-trim>
+" ~/.vimrc "
+set tags=~/.vim/tags/dailymotion
+                    </code></pre>
+                </section>
+
+                <section id="summary">
+                    <h2>Summary</h2>
+                    <img src="images/vi-vim-cheat-sheet.gif">
+                </section>
+
+                <section>
+                    <h2>Part 2</h2>
+                </section>
+
+                <section id="registers">
+                    <h2>Registers</h2>
+                </section>
+
+                <section>
+                    <h3>Registers</h3>
+                    <ul>
+                        <li>A register is a storage place for strings</li>
+                        <li><strong>"a</strong> to <strong>"z</strong> are user defined registers</li>
+                        <li><strong>"A</strong> to <strong>"Z</strong> append strings to registers "a to "z</li>
+                        <li><strong>"0</strong> is the yank register</li>
+                        <li><strong>""</strong> is the unamed register</li>
+                        <li><strong>"=</strong> the expression register</li>
+                        <li><strong>"_</strong> the black hole register</li>
+                        <li><strong>:reg</strong> shows the registers list</li>
+                        <li><strong>:reg a</strong> shows the content of register a</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Get from a register</h3>
+                    <ul>
+                        <li><strong>"ap</strong> in normal mode</li>
+                        <li><strong>CTRL-R a</strong> in insert or command mode</li>
+                        <li><strong>:echo @a</strong> in Vimscript</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Write to a register</h3>
+                    <ul>
+                        <li><strong>"ayiw</strong> in normal mode</li>
+                        <li><strong>:let @a = 'foo'</strong> in Vimscript</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>My yank gets overwritten</h3>
+                    <h4>The problem:</h4>
+                    <ul>
+                        <li>I yanked a line and deleted a word</li>
+                        <li>When I press p, the deleted word is put into the document</li>
+                        <li>Where's the line I just yanked?</li>
+                    </ul>
+                    <h4 style="margin-top: 20px;">The solution:</h4>
+                    <ul>
+                        <li>Use the yank register ("0) to put the last yank into the document</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Yank and delete operations, the explanation</h3>
+                    <ul>
+                        <li>Yank operations populate the yank ("0) and unnamed ("") registers</li>
+                        <li>Delete operations populate the unnamed ("") register</li>
+                        <li>The put command uses the unamed register by default</li>
+                        <li>Use the yank register ("0) to put the last yank into the document</li>
+                    </ul>
+                </section>
+
+                <section id="macros">
+                    <h2>Macros</h2>
+                </section>
+
+                <section>
+                    <h3>The dot command, the mini macro</h3>
+                    <p>
+                        <strong>.</strong> Repeat the last change.
+                    </p>
+                    <ul>
+                        <li>Repeats the last delete</li>
+                        <li>Repeats the last paste</li>
+                        <li>Repeats the last edit: A change starts when entering insert mode and stops when going back to normal mode</li>
+                        <li>Compose atomic changes to be repeatable</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Recording a macro</h3>
+                    <ul>
+                        <li>Going to the start of the line is good idea</li>
+                        <li><strong>qa</strong> starts recording the macro in register "a</li>
+                        <li>Make your changes...</li>
+                        <li><strong>q</strong> stops recording</li>
+                        <li><strong>:reg a</strong> shows the content of register "a</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Execute a macro</h3>
+                    <ul>
+                        <li><strong>@a</strong> executes a macro from register "a</li>
+                        <li><strong>@@</strong> repeats the last macro</li>
+                        <li><strong>22@a</strong> repeats the macro "a 22 times</li>
+                        <li>Visually select lines and then <strong>:normal @a</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Edit a macro</h3>
+                    <ul>
+                        <li><strong>"ap</strong> pastes the macro from register "a into the document</li>
+                        <li>Make your changes by adding or removing characters</li>
+                        <li>Special charaters like <strong>Esc</strong> or <strong>Backspace</strong> can be inserted via <strong>CTRL-V{char}</strong></li>
+                        <li><strong>0"ayg_</strong> yanks back the new macro in register "a</li>
+                        <li>The important thing is not to include the "new line" charater in the new macro</li>
+                    </ul>
+                </section>
+
+                <section id="practice-what-you-have-learned">
+                    <h2>Practice what you have learned</h2>
+                </section>
+
+                <section>
+                    <h3>From this:</h3>
+                    <pre><code data-trim>
+Enter   13
+Up arrow    38
+Down arrow  40
+Left arrow  37
+Right arrow 39
+Escape  27
+Spacebar    32
+Ctrl    17
+Alt 18
+Tab 9
+Shift   16
+Caps-lock   20
+Windows key 91
+Windows option key  93
+Backspace   8
+Home    36
+End 35
+Insert  45
+Delete  46
+Page Up 33
+Page Down   34
+Numlock 144
+Scroll-lock 145
+Pause-break 19
+F1-F12  112-123
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>To this:</h3>
+                    <pre><code data-trim>
+9,    # Tab
+13,   # Enter
+16,   # Shift
+17,   # Ctrl
+18,   # Alt
+19,   # Pause-break
+20,   # Caps-lock
+27,   # Escape
+32,   # Spacebar
+33,   # Page-Up
+34,   # Page-Down
+35,   # End
+36,   # Home
+37,   # Left-arrow
+38,   # Up-arrow
+39,   # Right-arrow
+40,   # Down-arrow
+91,   # Windows-key
+93,   # Windows-option-key
+112,  # F1
+113,  # F2
+114,  # F3
+115,  # F4
+116,  # F5
+117,  # F6
+118,  # F7
+119,  # F8
+120,  # F9
+121,  # F10
+122,  # F11
+123,  # F12
+144,  # Numlock
+145,  # Scroll-lock
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Solution</h3>
+                    <ul style="white-space: nowrap">
+                        <li>Execute the macro: <strong>$diw0Pa, # &lt;esc&gt;</strong></li>
+                        <li>Execute this vimscript to handle F1-F12:</li>
+                        <li>
+                    <pre><code data-trim>
+let c = 1
+for i in range(112, 123) | put =(i . ', # F' . c) | let c = c + 1 | endfor
+                    </code></pre>
+                    </li>
+                        <li>
+                            Visually select the paragraph and press <strong>:!sort -u -h</strong> or <strong>!ipsort -u -h</strong>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="opening-files">
+                    <h2>Opening files</h2>
+                </section>
+
+                <section>
+                    <h3>Some commands for opening files</h3>
+                    <ul>
+                        <li><strong>vim file1 file2 file3...</strong></li>
+                        <li><strong>:edit file</strong> or <strong>:e file</strong></li>
+                        <li><strong>:split file</strong></li>
+                        <li><strong>:vsplit file</strong> or <strong>:vs file</strong></li>
+                        <li><strong>:Explore</strong> or <strong>:Ex</strong> opens the local-directory browser on the current file's directory</li>
+                        <li><strong>:args app/scripts/*.js</strong></li>
+                        <li><strong>:args app/scripts/**/*.js</strong></li>
+                        <li><strong>:find file</strong> requires setting the path options properly (:set path+=app/scripts/**)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Opening files under the cursor</h2>
+                    <ul>
+                        <li><strong>gf</strong> edit the file whose name is under or after the cursor. Set the path option properly.</li>
+                        <li><strong>:set suffixesadd=.coffee,.js</strong> if the filename's extension is omitted.</li>
+                    </ul>
+                </section>
+
+                <section id="search">
+                    <h2>Search</h2>
+                </section>
+
+                <section>
+                    <h3>Search commands</h3>
+                    <ul>
+                        <li><strong>:h pattern.txt</strong></li>
+                        <li><strong>/</strong> searches forward</li>
+                        <li><strong>?</strong> searches backward</li>
+                        <li><strong>n</strong> next search</li>
+                        <li><strong>N</strong> previous search</li>
+                        <li><strong>*</strong> searches forward for word under the cursor</li>
+                        <li><strong>#</strong> searches backward for word under the cursor</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Some useful search options</h3>
+                    <pre><code data-trim>
+set incsearch " Preview as you type "
+set ignorecase " Don't be case sensitive "
+set smartcase " If you type a capital letter, be case sensitive "
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h3>Search pattern options</h3>
+                    <ul>
+                        <li><strong>/\c{pattern}</strong> forces no case sensitivity</li>
+                        <li><strong>/\C{pattern}</strong> forces case sensitivity</li>
+                        <li><strong>/\v{pattern}</strong> enables very magic patterns ~= perl regular expressions (vim uses ~= posix regular expressions by default)</li>
+                        <li><strong>/\V{pattern}</strong> enables very no magic patterns == literal search</li>
+                        <li><strong>/{pattern}/e</strong> puts the cursor at the end of the match</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Visual cursor line pulse</h3>
+                    <img src="images/cursor-line-pulse.gif">
+                    <p>
+                        <a href="https://github.com/inside/vim-search-pulse">https://github.com/inside/vim-search-pulse</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Visual pattern pulse</h3>
+                    <img src="images/pattern-pulse.gif">
+                    <p>
+                        <a href="https://github.com/inside/vim-search-pulse">https://github.com/inside/vim-search-pulse</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Grep the code</h3>
+                    <ul>
+                        <li><strong>CTRL-Z</strong></li>
+                        <li><strong>% git grep foo</strong></li>
+                        <li>Copy the interesting filename, remember the line number</li>
+                        <li><strong>% fg</strong></li>
+                        <li><strong>:e filename</strong></li>
+                        <li>Eventually search foo again</li>
+                        <li>This is an unoptimized workflow</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Grep the code with vim</h3>
+                    <ul>
+                        <li><strong>:set grepprg=git grep -n $*</strong></li>
+                        <li><strong>:grep foo</strong></li>
+                        <li>Navigate matches with the builtin quicklist</li>
+                        <li><strong>:cn</strong> go to next match, open the file if needed and puts the cursor on the line matching the pattern</li>
+                        <li><strong><strong>:cp</strong></strong> go to previous match</li>
+                        <li>If you run <strong>:grep</strong> several times, use <strong>:colder</strong> and <strong>:cnewer</strong> to navigate through older/newer grepped code</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Grep the code with the grep operator</h3>
+                    <p>
+                        Use text objects, motions or visual selections to operate on the grep command. In this case: <strong>&lt;leader&gt;giw</strong>
+                    </p>
+                    <img src="images/grep-operator-1.png">
+                    <p>
+                        <a href="https://github.com/inside/vim-grep-operator">https://github.com/inside/vim-grep-operator</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Grep the code with the grep operator</h3>
+                    <p>
+                        Ask the user for directories. In this case: <strong>&lt;leader&gt;&lt;leader&gt;giw</strong>
+                    </p>
+                    <img src="images/grep-operator-2.png">
+                    <p>
+                        <a href="https://github.com/inside/vim-grep-operator">https://github.com/inside/vim-grep-operator</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Use the global command</h3>
+                    <ul>
+                        <li><strong>:g/re/p</strong></li>
+                        <li><strong>:g/re</strong></li>
+                        <li><strong>:g/re/d</strong></li>
+                        <li><strong>:g/console.log/d</strong> to remove all debug statements in one command</li>
+                    </ul>
+                </section>
+
+                <section id="search-and-replace">
+                    <h2>Search and replace</h2>
+                </section>
+
+                <section>
+                    <h3>Search and replace</h3>
+                    <pre><code data-trim>
+:%s/{pattern}/{string}/gc
+                    </code></pre>
+                    <ul>
+                        <li>:h :s</li>
+                        <li>% is the range, here it means the whole file. Can be 5,14 or '&lt;,'&gt; the last visual selection</li>
+                        <li>g means every occurence on the line</li>
+                        <li>c prompts the user for an action</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Use the dot command to search and replace</h3>
+                    <ul>
+                        <li><strong>*</strong> finds the next word under the cursor</li>
+                        <li><strong>cw{replacement}</strong></li>
+                        <li><strong>n.</strong></li>
+                        <li><strong>n.</strong></li>
+                        <li><strong>n.</strong></li>
+                        <li>etc...</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Complex searches and replacement</h3>
+                    <pre><code data-trim>
+:%s/\v(foo) bar/\1 baz/gc
+                    </code></pre>
+                    <p>
+                        Or use Tim Pope's <a href="https://github.com/tpope/vim-abolish">https://github.com/tpope/vim-abolish</a> plugin.
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Search and replace in all buffers</h3>
+                    <pre><code data-trim>
+:bufdo %s/foo/bar/g
+                    </code></pre>
+                </section>
+
+                <section id="mappings">
+                    <h2>Mappings</h2>
+                </section>
+
+                <section>
+                    <h3>Mappings</h3>
+                    <ul>
+                        <li><strong>:h map</strong></li>
+                        <li><strong>:h key-notation</strong></li>
+                        <li><strong>:map {lhs} {rhs}</strong></li>
+                        <li>Use mode maps n, i, v</li>
+                        <li>Always use noremap</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Mappings</h3>
+                    <pre><code data-trim>
+" save file whether in insert or normal mode "
+inoremap &lt;leader&gt;s &lt;c-o&gt;:w&lt;cr&gt;&lt;esc&gt;
+nnoremap &lt;leader&gt;s :w&lt;cr&gt;
+                    </code></pre>
+                </section>
+
+                <section id="a-tiny-bit-of-viml-a-k-a-vimscript">
+                    <h2>A tiny bit of VimL a.k.a Vimscript</h2>
+                </section>
+
+                <section>
+                    <h3>VimL a.k.a Vimscript</h3>
+                    <ul>
+                        <li><a href="http://learnvimscriptthehardway.stevelosh.com/">Learn Vimscript the Hard Way</a></li>
+                        <li>:h functions</li>
+                        <li>:h vim-script-intro</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Code sample: a toggle tab function</h3>
+                    <pre><code data-trim>
+" Toggles between the active and last active tab "
+" The first tab is always 1 "
+let g:last_active_tab = 1
+nnoremap &lt;leader&gt;gt :execute 'tabnext ' . g:last_active_tab&lt;cr&gt;
+autocmd TabLeave * let g:last_active_tab = tabpagenr()
+                    </code></pre>
+                </section>
+
+                <section id="plugins">
+                    <h2>Plugins</h2>
+                    <ul>
+                        <li><a href="https://github.com/gmarik/Vundle.vim">Vundle</a>, the plug-in manager for Vim</li>
+                        <li><a href="https://github.com/Shougo/unite.vim">unite</a>, <a href="https://github.com/Shougo/unite-outline">unite-outline</a> fuzzy find any source (files, tags, buffers, windows, tabs, menu, mru files, lines, ...)</li>
+                        <li><a href="https://github.com/Raimondi/delimitMate">delimitMate</a>, insert mode auto-completion for quotes, parens, brackets, etc...</li>
+                        <li><a href="https://github.com/tpope/vim-surround">surround.vim</a>, quoting/parenthesizing made simple</li>
+                        <li><a href="https://github.com/scrooloose/nerdtree">The nerdtree</a>, a tree explorer plugin for vim</li>
+                        <li><a href="https://github.com/scrooloose/nerdcommenter">The nerdcommenter</a>, a plugin for commenting</li>
+                        <li><a href="https://github.com/tpope/vim-fugitive">fugitive.vim</a>, a Git wrapper so awesome, it should be illegal</li>
+                        <li><a href="https://github.com/vim-scripts/camelcasemotion">CamelCaseMotion</a>, CamelCase and under_score motions</li>
+                        <li><a href="https://github.com/vim-scripts/snipMate">snipMate</a>, TextMate-style snippets for Vim</li>
+                        <li><a href="https://github.com/bronson/vim-trailing-whitespace">vim-trailing-whitespace</a>, Highlights trailing whitespace in red and provides :FixWhitespace to fix it.</li>
+                        <li><a href="https://github.com/sjl/gundo.vim">Gundo</a>, Graph your Vim undo tree in style</li>
+                    </ul>
+                </section>
+
+                <section id="resources">
+                    <h2>Resources</h2>
+                    <ul>
+                        <li>
+                            The official site and mailing lists
+                            <ul>
+                                <li>
+                                    <a href="http://www.vim.org/">http://www.vim.org/</a>,  <a href="http://www.vim.org/maillist.php">http://www.vim.org/maillist.php</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Videos
+                            <ul>
+                                <li>
+                                    <a href="http://vimcasts.org/">Vimcasts</a>,  <a href="http://www.youtube.com/user/MinuteVimTricks/videos">MinuteVimTricks</a>
+                                </li>
+                                <li><a href="http://www.youtube.com/watch?v=p6K4iIMlouI">Bram Moleenaar's 7 Habits For Effective Text Editing 2.0</a></li>
+                                <li><a href="http://derekwyatt.org/">Derek Wyatt's Vim tutorial videos</a></li>
+                                <li><a href="http://www.youtube.com/watch?v=aHm36-na4-4">Vim at OSCON 2013</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            Blog and Reddit
+                            <ul>
+                                <li><a href="http://usevim.com/">The usevim blog</a></li>
+                                <li>
+                                    <a href="http://www.reddit.com/r/vim/">reddit.com/r/vim/</a>,  <a href="http://www.reddit.com/r/vimplugins">reddit.com/r/vimplugins</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Books
+                            <ul>
+                                <li><a href="http://pragprog.com/book/dnvim/practical-vim">Practical Vim</a></li>
+                                <li><a href="http://learnvimscriptthehardway.stevelosh.com/">Learn Vimscript The Hard Way by Steve Losh</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Questions&amp;Answers</h2>
+                </section>
+
+            </div>
+        </div>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: false,
+                history: true,
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+        </script>
+    </body>
+</html>
