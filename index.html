@@ -261,8 +261,10 @@ syntax on
 
 " When sourcing multiple times your vimrc file "
 " clear the autocommands first instead of adding them "
-autocmd!
-autocmd FileType make setlocal noexpandtab
+augroup mygroup
+    autocmd!
+    autocmd FileType make setlocal noexpandtab
+augroup END
                     </code></pre>
                     <p>
                         <a href="http://vimcasts.org/episodes/tabs-and-spaces/">See a full explanation about tabs and spaces</a>
